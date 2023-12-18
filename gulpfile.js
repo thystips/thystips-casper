@@ -18,9 +18,11 @@ const autoprefixer = require('autoprefixer');
 const colorFunction = require('postcss-color-mod-function');
 const cssnano = require('cssnano');
 const easyimport = require('postcss-easy-import');
+const tailwindcss = require('tailwindcss');
+const tailwindcssForms = require('@tailwindcss/forms');
+const tailwindcssTypography = require('@tailwindcss/typography');
 
-const REPO = 'TryGhost/Casper';
-const REPO_READONLY = 'TryGhost/Casper';
+const REPO = 'thystips/thystips-casper';
 const CHANGELOG_PATH = path.join(process.cwd(), '.', 'changelog.md');
 
 function serve(done) {
@@ -48,10 +50,13 @@ function css(done) {
     pump([
         src('assets/css/*.css', {sourcemaps: true}),
         postcss([
+            tailwindcss,
             easyimport,
             colorFunction(),
             autoprefixer(),
-            cssnano()
+            cssnano(),
+            tailwindcssForms,
+            tailwindcssTypography
         ]),
         dest('assets/built/', {sourcemaps: '.'}),
         livereload()
@@ -62,6 +67,9 @@ function js(done) {
     pump([
         src([
             // pull in lib files first so our own code can depend on it
+            'node_modules/alpinejs/dist/cdn.js',
+            'node_modules/@alpinejs/persist/dist/cdn.js',
+            'node_modules/@alpinejs/collapse/dist/cdn.js',
             'assets/js/lib/*.js',
             'assets/js/*.js'
         ], {sourcemaps: true}),
@@ -82,14 +90,15 @@ function zipper(done) {
             '!dist', '!dist/**',
             '!yarn-error.log',
             '!yarn.lock',
-            '!gulpfile.js'
+            '!gulpfile.js',
+            '!tailwind.config.js'
         ]),
         zip(filename),
         dest('dist/')
     ], handleError(done));
 }
 
-const cssWatcher = () => watch('assets/css/**', css);
+const cssWatcher = () => watch(['assets/css/**', 'tailwind.config.js'], css);
 const jsWatcher = () => watch('assets/js/**', js);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs'], hbs);
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher);
@@ -131,7 +140,7 @@ exports.release = async () => {
 
         const releasesResponse = await releaseUtils.releases.get({
             userAgent: 'Casper',
-            uri: `https://api.github.com/repos/${REPO_READONLY}/releases`
+            uri: `https://api.github.com/repos/${REPO}/releases`
         });
 
         if (!releasesResponse || !releasesResponse) {

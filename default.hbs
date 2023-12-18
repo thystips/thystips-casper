@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}"{{#match @custom.color_scheme "Dark"}} class="dark-mode"{{else match @custom.color_scheme "Auto"}} class="auto-color"{{/match}}>
+<html lang="{{@site.locale}}" x-data="{ darkMode: localStorage.getItem('dark') === 'true'} "
+    x-init="$watch('darkMode', val => localStorage.setItem('dark', val))" x-bind:class="{ 'dark': darkMode }">
 <head>
 
     {{!-- Basic meta - advanced meta is output with {ghost_head} below --}}
@@ -22,49 +23,46 @@
     {{ghost_head}}
 
 </head>
-<body class="{{body_class}} is-head-{{#match @custom.navigation_layout "Logo on cover"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}{{#if @custom.show_publication_cover}} has-cover{{/if}}">
-<div class="viewport">
+<body class="{{body_class}} is-head-left-logo dark:ctp-mocha" x-data="{ isOpen: false }" @keydown.escape="isOpen = false">
+<div class="viewport relative flex flex-col min-h-screen line-numbers">
 
-    <header id="gh-head" class="gh-head outer{{#match @custom.header_style "Hidden"}} is-header-hidden{{/match}}">
+    <header id="gh-head" class="gh-head outer" :class="{ 'gh-head-open' : isOpen}" x-show.transition="true">
         <div class="gh-head-inner inner">
             <div class="gh-head-brand">
-                <a class="gh-head-logo{{#unless @site.logo}} no-image{{/unless}}" href="{{@site.url}}">
+                <a class="gh-head-logo{{#unless @site.logo}} no-image{{/unless}} no-underline" @click="isOpen = false" href="{{@site.url}}">
                     {{#if @site.logo}}
                         <img src="{{@site.logo}}" alt="{{@site.title}}">
                     {{else}}
                         {{@site.title}}
                     {{/if}}
                 </a>
-                <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
-                <button class="gh-burger" aria-label="Main Menu"></button>
+                <button class="gh-search gh-icon-btn" aria-label="Search this site" @click="isOpen = false" data-ghost-search>{{> "icons/search"}}</button>
+                <button class="gh-burger" aria-label="Main Menu" @click="isOpen = !isOpen"></button>
             </div>
 
             <nav class="gh-head-menu">
                 {{navigation}}
                 {{#unless @site.members_enabled}}
-                    {{#match @custom.navigation_layout "Stacked"}}
-                        <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
-                    {{/match}}
+                    <button class="gh-search gh-icon-btn" aria-label="Search this site" @click="isOpen = false" data-ghost-search>{{> "icons/search"}}</button>
                 {{/unless}}
             </nav>
 
             <div class="gh-head-actions">
+                {{> "theme-toggle"}}
                 {{#unless @site.members_enabled}}
-                    {{^match @custom.navigation_layout "Stacked"}}
-                        <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
-                    {{/match}}
+                    <button class="gh-search gh-icon-btn" @click="isOpen = false" data-ghost-search>{{> "icons/search"}}</button>
                 {{else}}
-                    <button class="gh-search gh-icon-btn" data-ghost-search>{{> "icons/search"}}</button>
+                    <button class="gh-search gh-icon-btn" @click="isOpen = false" data-ghost-search>{{> "icons/search"}}</button>
                     <div class="gh-head-members">
                         {{#unless @member}}
                             {{#unless @site.members_invite_only}}
-                                <a class="gh-head-link" href="#/portal/signin" data-portal="signin">Sign in</a>
-                                <a class="gh-head-button" href="#/portal/signup" data-portal="signup">Subscribe</a>
+                                <a class="gh-head-link no-underline" href="#/portal/signin" data-portal="signin" @click="isOpen = false">{{t "Sign in"}}</a>
+                                <a class="gh-head-button no-underline" href="#/portal/signup" data-portal="signup" @click="isOpen = false">{{t "Subscribe"}}</a>
                             {{else}}
-                                <a class="gh-head-button" href="#/portal/signin" data-portal="signin">Sign in</a>
+                                <a class="gh-head-button no-underline" href="#/portal/signin" data-portal="signin" @click="isOpen = false">{{t "Sign in"}}</a>
                             {{/unless}}
                         {{else}}
-                            <a class="gh-head-button" href="#/portal/account" data-portal="account">Account</a>
+                            <a class="gh-head-button no-underline" href="#/portal/account" data-portal="account" @click="isOpen = false">{{t "Account"}}</a>
                         {{/unless}}
                     </div>
                 {{/unless}}
@@ -80,11 +78,20 @@
     {{!-- The global footer at the very bottom of the screen --}}
     <footer class="site-footer outer">
         <div class="inner">
-            <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
+            <section class="copyright">
+                {{!-- <a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}} --}}
+                <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title"
+                        rel="cc:attributionURL" href="https://thys.tips">Thys.Tips</a> is licensed under <a
+                        href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank"
+                        rel="license noopener noreferrer">CC BY-SA 4.0<img
+                            src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img
+                            src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img
+                            src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
+            </section>
             <nav class="site-footer-nav">
                 {{navigation type="secondary"}}
             </nav>
-            <div class="gh-powered-by"><a href="https://ghost.org/" target="_blank" rel="noopener">Powered by Ghost</a></div>
+            <div class="gh-powered-by"><a href="https://ghost.org/" target="_blank" rel="noopener">{{t "Powered by"}} Ghost</a></div>
         </div>
     </footer>
 
@@ -102,16 +109,6 @@
     crossorigin="anonymous">
 </script>
 <script src="{{asset "built/casper.js"}}"></script>
-<script>
-$(document).ready(function () {
-    // Mobile Menu Trigger
-    $('.gh-burger').click(function () {
-        $('body').toggleClass('gh-head-open');
-    });
-    // FitVids - Makes video embeds responsive
-    $(".gh-content").fitVids();
-});
-</script>
 
 {{!-- Ghost outputs required functional scripts with this tag - it should always be the last thing before the closing body tag --}}
 {{ghost_foot}}
