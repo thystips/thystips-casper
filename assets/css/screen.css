@@ -8,7 +8,6 @@
   html body {
     @apply text-ctp-text bg-ctp-base;
     scrollbar-color: var(--tw-color-ctp-overlay0) var(--tw-color-ctp-surface0);
-    scrollbar-width: thin;
   }
 
   img {

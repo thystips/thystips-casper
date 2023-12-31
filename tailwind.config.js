@@ -6,7 +6,7 @@ export default {
       sans: [
         '"Inter var", sans-serif',
         {
-          fontFeatureSettings: '"calt", "dlig", "tnum", "frac", "ccmp", "ss02"',
+          fontFeatureSettings: '"calt", "dlig", "tnum", "ccmp", "ss02"',
         },
       ],
     },

@@ -11,7 +11,7 @@ pre[class*="language-"] {
     word-wrap: normal;
     color: var(--ctp-mocha-text);
     background: var(--ctp-mocha-mantle);
-    font-family: Roboto Mono, monospace;
+    font-family: Inter var, Roboto Mono, monospace;
     font-size: 1rem;
     line-height: 1.5rem;
 
