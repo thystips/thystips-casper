@@ -1,5 +1,5 @@
 @import "prism.css";
-@import "prism-material-dark.css";
+@import "prism-theme.css";
 @import "tocbot.css";
 
 @tailwind base;
@@ -610,7 +610,7 @@
   }
 
   .article-excerpt {
-    @apply max-w-[720px] text-4xl text-ctp-text mt-5 max-md:text-3xl max-md:mt-3.5;
+    @apply max-w-[720px] text-2xl text-ctp-text mt-5 max-md:text-3xl max-md:mt-3.5;
   }
 
   .gh-canvas .article-image {
@@ -716,21 +716,25 @@
   .gh-content .kg-toggle-card .kg-toggle-content > ol,
   .gh-content .kg-toggle-card .kg-toggle-content > ul,
   .gh-content .kg-toggle-card .kg-toggle-content > p {
-    @apply font-normal text-2xl;
+    @apply text-xl;
+    /* @apply font-normal text-2xl; */
   }
 
   .gh-content .kg-product-card .kg-product-card-description > p,
   .gh-content .kg-product-card .kg-product-card-description > ol,
   .gh-content .kg-product-card .kg-product-card-description > ul {
-    @apply text-2xl leading-[1.6em];
+    @apply text-xl;
+    /* @apply text-2xl leading-[1.6em]; */
   }
 
   .gh-content .kg-callout-card .kg-callout-emoji {
-    @apply text-4xl leading-[1.4em];
+    @apply text-3xl;
+    /* @apply text-4xl leading-[1.4em]; */
   }
 
   .gh-content .kg-toggle-card .kg-toggle-heading-text {
-    @apply text-3xl;
+    @apply text-2xl;
+    /* @apply text-3xl; */
   }
 
   .gh-content > ul,
@@ -767,11 +771,11 @@
   /* Add extra margin before/after any cards,
     except for when immediately preceeded by a heading */
   .gh-content :not(.kg-card):not([id]) + .kg-card {
-    @apply mt-[6vmin];
+    @apply mt-8;
   }
 
   .gh-content .kg-card + :not(.kg-card) {
-    @apply mt-[6vmin];
+    @apply mt-8;
   }
 
   /* This keeps small embeds centered */
@@ -812,7 +816,7 @@
 
   /* Captions */
   figcaption {
-    @apply text-center text-ctp-text text-[1.3rem] leading-[1.4em] pt-6 pb-0 px-6;
+    @apply text-center text-ctp-text opacity-50 text-base pt-3 pb-0 px-4;
   }
 
   figcaption strong {
@@ -825,11 +829,11 @@
 
   /* Highly specific styles for traditional Instagram embeds */
   iframe.instagram-media {
-    @apply mt-[6vmin] mb-0 mx-auto;
+    @apply mt-8 mb-0 mx-auto;
   }
 
   iframe.instagram-media + script + :not([id]) {
-    @apply mt-[6vmin];
+    @apply mt-8;
   }
 
   /* Card captions
@@ -1526,6 +1530,14 @@
 @tailwind utilities;
 
 @layer utilities {
+  /* Code Snippet */
+  /* ---------------------------------------------------------- */
+  .kg-code-card > figcaption {
+    margin: 0;
+    padding: 0;
+  }
+
+
   /* Table of Contents */
   /* ---------------------------------------------------------- */
   .gh-content {
@@ -1534,7 +1546,7 @@
 
   .gh-toc > .toc-list {
     position: relative;
-    @apply !text-base;
+    font-size: 1rem;
   }
 
   .toc-list {
@@ -1571,10 +1583,12 @@
   button.gh-dark-btn > svg {
     @apply w-5 h-5;
   }
-
+  
   .hidden {
     display: none !important;
   }
+  
+  
 }
 
 [x-cloak] { display: none !important; }

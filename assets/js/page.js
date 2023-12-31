@@ -7,3 +7,8 @@ $(document).ready(function () {
   // FitVids - Makes video embeds responsive
   $(".gh-content").fitVids();
 });
+
+$(document).ready(function () {
+  $('.code-toolbar').addClass('not-prose');
+  $('figure.kg-card.kg-code-card').addClass('not-prose');
+});
