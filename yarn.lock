@@ -24,6 +24,11 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@catppuccin/palette@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@catppuccin/palette/-/palette-1.0.1.tgz#f5834b7cdcd8a8c15b3f7427e52acf5446313ea6"
+  integrity sha512-aCVFn6j2HnN6M/yk4co67rF/EWrXhZO2qpJUJd6Xsz8t1BF6PbmftM8Gz3wFHPfUdTogU0dUiKs+YsW19hJ8mQ==
+
 "@catppuccin/tailwindcss@^0.1.6":
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/@catppuccin/tailwindcss/-/tailwindcss-0.1.6.tgz#d97c491e1523ead83009e32d0a34c364c2a0ca5b"

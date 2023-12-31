@@ -7,6 +7,8 @@
 @layer base {
   html body {
     @apply text-ctp-text bg-ctp-base;
+    scrollbar-color: var(--tw-color-ctp-overlay0) var(--tw-color-ctp-surface0);
+    scrollbar-width: thin;
   }
 
   img {
@@ -117,6 +119,18 @@
 
   .gh-content {
     @apply relative;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-3;
+    /* width: 10px; */
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-ctp-surface0;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ctp-overlay0 hover:bg-ctp-overlay2 rounded-full;
   }
 }
 
@@ -628,7 +642,7 @@
   use it for applying any other styles. */
   .gh-canvas,
   .kg-width-full.kg-content-wide {
-    @apply [--gap:max(4vmin,20px)] [--main:min(var(--content-width,720px),100%_-_var(--gap)_*_2)] [--wide:minmax(0,calc((var(--container-width,1200px)_-_var(--content-width,720px))_/_2))] [--full:minmax(var(--gap),1fr)] grid grid-cols-[[full-start]_var(--full)_[wide-start]_var(--wide)_[main-start]_var(--main)_[main-end]_var(--wide)_[wide-end]_var(--full)_[full-end]];
+    @apply [--gap:max(4vmin,20px)] [--main:min(var(--content-width,900px),100%_-_var(--gap)_*_2)] [--wide:minmax(0,calc((var(--container-width,1200px)_-_var(--content-width,720px))_/_2))] [--full:minmax(var(--gap),1fr)] grid grid-cols-[[full-start]_var(--full)_[wide-start]_var(--wide)_[main-start]_var(--main)_[main-end]_var(--wide)_[wide-end]_var(--full)_[full-end]];
   }
 
   .gh-canvas > * {
@@ -774,6 +788,7 @@
     @apply mt-8;
   }
 
+  .gh-content .kg-code-card + .kg-card,
   .gh-content .kg-card + :not(.kg-card) {
     @apply mt-8;
   }
@@ -816,7 +831,11 @@
 
   /* Captions */
   figcaption {
-    @apply text-center text-ctp-text opacity-50 text-base pt-3 pb-0 px-4;
+    @apply text-center text-ctp-text opacity-50 text-base pb-0 px-4;
+  }
+
+  figure:not(.kg-code-card) figcaption {
+    @apply pt-4;
   }
 
   figcaption strong {
